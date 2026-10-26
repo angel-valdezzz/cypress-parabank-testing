@@ -12,7 +12,7 @@ function submit() { cy.get('#customerForm input[type=submit]').click(); }
 function register() { form(); submit(); cy.get('#rightPanel h1').should('have.text','Welcome '+username); }
 function login() { cy.get('input[name=username]').type(username); cy.get('input[name=password]').type(password,{log:false}); cy.get('#loginPanel input[type=submit]').click(); }
 describe('ParaBank customer journeys',()=> {
-  beforeEach(()=> { username='qa'+Date.now()+Cypress._.random(100000000); cy.clearCookies(); });
+  beforeEach(()=> { username='qa'+Date.now()+Cypress._.random(10000,99999); cy.clearCookies(); });
   it('register a new customer',()=> { register(); });
   it('logout and login',()=> { register(); cy.contains('a','Log Out').click(); login(); cy.get('#rightPanel h1').should('have.text','Accounts Overview'); });
   it('required registration fields',()=> { cy.visit(Cypress.config('baseUrl').replace(/\/$/,'')+'/register.htm'); submit(); cy.get('[id="customer.firstName.errors"]').should('have.text','First name is required.'); });
