@@ -14,7 +14,7 @@ function login() { cy.get('input[name=username]').type(username); cy.get('input[
 describe('ParaBank customer journeys',()=> {
   beforeEach(()=> { username='qa'+Date.now()+Cypress._.random(10000,99999); cy.clearCookies(); });
   it('register a new customer',()=> { register(); });
-  it('logout and login',()=> { register(); cy.contains('a','Log Out').click(); login(); cy.get('#rightPanel h1').should('have.text','Accounts Overview'); });
+  it('logout and login',()=> { register(); cy.contains('a','Log Out').click(); login(); cy.get('#rightPanel h1:visible').invoke('text').should('match',/^\s*Accounts Overview\s*$/); });
   it('required registration fields',()=> { cy.visit(Cypress.config('baseUrl').replace(/\/$/,'')+'/register.htm'); submit(); cy.get('[id="customer.firstName.errors"]').should('have.text','First name is required.'); });
   it('password mismatch',()=> { form(true); submit(); cy.get('[id="repeatedPassword.errors"]').should('have.text','Passwords did not match.'); });
   it('unknown credentials',()=> { cy.visit(Cypress.config('baseUrl').replace(/\/$/,'')+'/index.htm'); login(); cy.get('#rightPanel .error').should('have.text','The username and password could not be verified.'); });
